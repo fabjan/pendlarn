@@ -156,6 +156,10 @@ func GetTrainsStoppingAt(apiKey string, from string, to string, after time.Time,
 		}
 	}
 
+	if len(trainIDs) == 0 {
+		return nil, []TrainAnnouncement{}
+	}
+
 	getQuery := getAnnouncementParams{
 		ApiKey:   apiKey,
 		TrainIds: trainIDs,
@@ -210,6 +214,9 @@ func postToAPI(body io.Reader) (*http.Response, error) {
 		return nil, fmt.Errorf("unauthorized (check your API key)")
 	}
 	if resp.StatusCode != 200 {
+		buf := make([]byte, 1000)
+		n, _ := resp.Body.Read(buf)
+		fmt.Println("Error response body:", string(buf[:n]))
 		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}
 
