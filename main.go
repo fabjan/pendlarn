@@ -88,15 +88,16 @@ func renderResults(w http.ResponseWriter, r *http.Request, from string, to strin
 	fmt.Fprintf(w, `
 		<table>
 			<tbody>
-		`)
+	`)
 
 	for _, train := range trains {
 		fmt.Fprint(w, announcementToRow(train))
 	}
 
 	fmt.Fprintf(w, `
-		</tbody>
-	</table>`)
+			</tbody>
+		</table>
+	`)
 }
 
 func announcementToRow(ann trafikverket.TrainAnnouncement) string {
@@ -146,11 +147,13 @@ func uninteresting(info trafikverket.Information) bool {
 }
 
 func locationName(locationSignature string) string {
+
 	switch locationSignature {
 	case "U":
 		return "Uppsala"
 	case "Cst":
 		return "Stockholm C"
 	}
+
 	return locationSignature
 }
