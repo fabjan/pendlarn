@@ -59,6 +59,26 @@ func serveSearch(w http.ResponseWriter, r *http.Request, from string, to string,
 	renderResults(w, r, from, to, trains)
 }
 
+func navBar(currentLocation string) string {
+	var items []struct{ key, link string } = []struct{ key, link string }{
+		{"U", "uppsala"},
+		{"Cst", "stockholm"},
+	}
+
+	nav := "<nav><ul>"
+	for _, item := range items {
+		name := locationName(item.key)
+		if item.key == currentLocation {
+			nav += "<li class=\"here\"><a href=\"javascript:;\">" + name + "</a></li>"
+		} else {
+			nav += "<li><a href=\"/now/" + item.link + "\">" + name + "</a></li>"
+		}
+	}
+	nav += "</ul></nav>"
+
+	return nav
+}
+
 func renderResults(w http.ResponseWriter, r *http.Request, from string, to string, trains []trafikverket.TrainAnnouncement) {
 
 	title := locationName(from) + " &rarr;"
@@ -75,13 +95,7 @@ func renderResults(w http.ResponseWriter, r *http.Request, from string, to strin
 </head>
 <body>
 	<header>
-		<nav>
-			<ul>
-				<li><a href="/now/uppsala">Uppsala</a></li>
-				<li><a href="/now/stockholm">Stockholm</a></li>
-			</ul>
-		</nav>
-		<h3>`+title+`</h3>
+		`+navBar(from)+`
 	</header>
 	<main>
 	`)

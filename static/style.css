@@ -1,9 +1,12 @@
-body {
-    background-color: whitesmoke;
+:root {
+    --color-bg: whitesmoke;
+    --color-bg-light: white;
+    --color-text: black;
+    --color-text-danger: maroon;
 }
 
-.deviation {
-    color: maroon;
+body {
+    background-color: var(--color-bg);
 }
 
 /* horizontal nav list */
@@ -14,7 +17,6 @@ nav ul {
     overflow: hidden;
 }
 
-
 nav li {
     float: left;
 }
@@ -22,5 +24,21 @@ nav li {
 nav li a {
     display: block;
     padding: 8px;
-    background-color: white;
+}
+
+nav li.here a {
+    background-color: var(--color-bg-light);
+}
+
+/* table styling */
+td {
+    vertical-align: top;
+}
+
+tr:nth-child(even) {
+    background-color: var(--color-bg-light);
+}
+
+.deviation {
+    color: var(--color-text-danger);
 }
