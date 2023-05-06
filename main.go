@@ -69,6 +69,7 @@ func renderResults(w http.ResponseWriter, r *http.Request, from string, to strin
 <head>
 	<title> Pendlarn - `+title+`</title>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://unpkg.com/sakura.css@1.4.1/css/sakura.css" type="text/css">
 	<style>`+style+`</style>
 </head>
