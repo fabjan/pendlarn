@@ -17,6 +17,12 @@ var PORT = os.Getenv("PORT")
 //go:embed static/style.css
 var style string
 
+//go:embed static/favicon.ico
+var favicon []byte
+
+//go:embed static/icon-512.png
+var icon512 []byte
+
 func main() {
 	if TRAFIKVERKET_API_KEY == "" {
 		log.Fatal("TRAFIKVERKET_API_KEY environment variable not set")
@@ -25,6 +31,33 @@ func main() {
 	if PORT == "" {
 		PORT = "3000"
 	}
+
+	// who needs a web framework or server anyway
+	http.HandleFunc("/static/manifest.json", func(w http.ResponseWriter, r *http.Request) {
+		appManifest := `{
+			"name": "Pendlarn",
+			"short_name": "Pendlarn",
+			"icons": [
+				{
+					"src": "/static/icon-512.png",
+					"sizes": "512x512",
+					"type": "image/png",
+					"purpose": "any maskable"
+				}
+			],
+			"theme_color": "#007bff",
+			"background_color": "smokewhite",
+			"display": "standalone"
+		}`
+
+		fmt.Fprintf(w, appManifest)
+	})
+	http.HandleFunc("/static/icon-512.png", func(w http.ResponseWriter, r *http.Request) {
+		w.Write(icon512)
+	})
+	http.HandleFunc("/static/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
+		w.Write(favicon)
+	})
 
 	http.HandleFunc("/", http.RedirectHandler("/now/uppsala", http.StatusFound).ServeHTTP)
 	http.HandleFunc("/now/uppsala", nowHandler("U", "Cst"))
@@ -90,6 +123,10 @@ func renderResults(w http.ResponseWriter, r *http.Request, from string, to strin
 	<title> Pendlarn - `+title+`</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#007bff">
+	<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/static/icon-512.png">
+	<link rel="manifest" href="/static/manifest.json">
 	<link rel="stylesheet" href="https://unpkg.com/sakura.css@1.4.1/css/sakura.css" type="text/css">
 	<style>`+style+`</style>
 </head>
