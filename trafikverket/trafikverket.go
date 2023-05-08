@@ -210,6 +210,9 @@ func postToAPI(body io.Reader) (*http.Response, error) {
 	req.Header.Set("Content-Type", "text/xml")
 
 	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
 	if resp.StatusCode == 401 {
 		return nil, fmt.Errorf("unauthorized (check your API key)")
 	}
