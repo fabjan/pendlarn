@@ -8,7 +8,6 @@ RUN apk add --no-cache tzdata
 WORKDIR /app
 COPY --from=build /tree/pendlarn .
 
-ENV TZ "Europe/Stockholm"
-ENV TRAFIKVERKET_API_KEY ""
-ENV PORT "3000"
+ENV TZ="Europe/Stockholm"
+ENV PORT="3000"
 CMD ["./pendlarn"]
