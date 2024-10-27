@@ -49,7 +49,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
-            type=raw,pattern={{date 'YYYY.DDD.Hmm'}}
+            type=raw,value={{date 'YYYY.DDD.Hmm'}}
             type=ref,event=branch
             type=ref,event=pr
             type=sha
